@@ -1,0 +1,31 @@
+nav {
+    background-color: #333;
+    padding: 1rem;
+    position: fixed;  /* <-- Fixed to the viewport */
+    top: 0;           /* <-- Top of the screen */
+    left: 0;          /* <-- Start from very left */
+    right: 0;         /* <-- Stretch to right */
+    z-index: 1000;    /* <-- Stay on top of everything */
+  }
+  
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+  }
+  
+  nav a:hover {
+    color: #ffd700;
+  }
+  

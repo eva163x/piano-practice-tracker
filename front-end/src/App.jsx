@@ -8,10 +8,12 @@ import NewSession from './pages/NewSession';
 import History from './pages/History';
 import Layout from './Layout';
 import Session from './pages/Session';
+import NotFoundPage from './pages/NotFoundPage';
 
 const routes = [{
   path: '/',
   element: <Layout />,
+  errorElement: <NotFoundPage />, //what to do if URL not in routes
   children: [{
       path: '/', //what URL path
       element: <HomePage /> //what component to display
