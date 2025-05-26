@@ -1,18 +1,43 @@
 import express from 'express';
 
+const sessionInfo = [
+    {date: '2025-04-20', upvotes: 0, feedback: []},
+    {date: "2025-04-21", upvotes: 0, feedback: [] },
+    {date: "2025-04-22", upvotes: 0, feedback: [] }
+]
+
 const app = express();
 
 app.use(express.json());
 //create an endpoint
 
-//get request
-app.get('/hello', function(req, res) { //function has 2 args: request & response
-    res.send('Hello from a GET endpoint!'); //saying send Hello! as response
+//we start all back-end endpoint reqs w api/
+
+//https://xcv1vf96-8000.use2.devtunnels.ms/api/history/2025-04-20/upvote
+app.post("/api/history/:date/upvote", function(req, res){
+    const mysession = sessionInfo.find(a => a.date == req.params.date);
+    mysession.upvotes += 1
+
+    res.json(mysession);
 })
 
-//post request
-app.post('/hello', function(req, res){
-    res.send('Hello,' + req.body.name + ' from a POST endpoint!');
+//what should request body look like?
+app.post("/api/history/:date/feedback", function(req, res){
+    //get stuff from request URL
+    const {date} = req.params;
+    const {postedBy, text} = req.body;
+
+    //find specific session in database
+    const mysession = sessionInfo.find(a => a.date == date);
+
+    //push it to our database
+    mysession.feedback.push({
+        postedBy,
+        text
+    });
+
+    //send back our updated 'session' info as response body
+    res.json(mysession);
 })
 
 //starting server
