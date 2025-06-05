@@ -2,6 +2,7 @@ import {
   createBrowserRouter,
   RouterProvider} 
   from 'react-router-dom';
+  import axios from 'axios';
 import HomePage from './pages/HomePage'
 import './App.css'
 import NewSession from './pages/NewSession';
@@ -28,7 +29,12 @@ const routes = [{
     },
     {
       path:'/history/:date', // -> /history/2020-04-03
-      element: <Session />
+      element: <Session />,
+      loader: async function() {
+        const response = await axios.get('/api/history/2025-04-22');
+        const { upvotes, comments } = response.data;
+        return { upvotes, comments };
+      }
     }]
 }]
 //creating router
