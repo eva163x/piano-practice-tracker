@@ -53,7 +53,7 @@ app.post("/api/history/:date/upvote", async function(req, res){
     const { date } = req.params;
 
     const updatedSession = await db.collection('sessions').findOneAndUpdate({ date }, {
-        $inc: {upvtoes: 1}}, {
+        $inc: {upvotes: 1}}, {
             //wanna return AFTER updation
             returnDocument: "after"
         }
@@ -69,7 +69,7 @@ app.post("/api/history/:date/upvote", async function(req, res){
 });
 
 //what should request body look like?
-app.post("/api/history/:date/feedback", async function(req, res){
+app.post("/api/history/:date/comments", async function(req, res){
     //get stuff from request URL
     const {date} = req.params;
     const {postedBy, text} = req.body;

@@ -8,7 +8,7 @@ import './App.css'
 import NewSession from './pages/NewSession';
 import History from './pages/History';
 import Layout from './Layout';
-import Session from './pages/Session';
+import Session, {loader as sessionLoader} from './pages/Session';
 import NotFoundPage from './pages/NotFoundPage';
 
 const routes = [{
@@ -30,11 +30,7 @@ const routes = [{
     {
       path:'/history/:date', // -> /history/2020-04-03
       element: <Session />,
-      loader: async function() {
-        const response = await axios.get('/api/history/2025-04-22');
-        const { upvotes, comments } = response.data;
-        return { upvotes, comments };
-      }
+      loader: sessionLoader,
     }]
 }]
 //creating router
