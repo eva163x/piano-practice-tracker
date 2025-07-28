@@ -1,4 +1,5 @@
 import {useParams, useLoaderData } from 'react-router-dom';
+import { useState } from 'react';
 //gets value so we can use as prop
 import sessions from '../sample-sessions';
 import axios from 'axios';
@@ -7,13 +8,23 @@ import CommentsList from './CommentsList';
 export default function Session() {
     const params = useParams();
     const date = params.date;
-    const { upvotes, comments } = useLoaderData();
+
+    //set initial, so we can keep changing state
+    const { upvotes : initialUpvotes, comments } = useLoaderData();
+    const [upvotes, setUpvotes] = useState(initialUpvotes);
 
     const session = sessions.find(s => s.date == date);
+
+    async function onUpvoteClicked(){
+        const response = await axios.post('/api/history/' + date + '/upvote');
+        const updatedSessionData = response.data;
+        setUpvotes(updatedSessionData.upvotes);
+    }
 
     return(
         <>
         <h1>Session from {date}</h1>
+        <button onClick={onUpvoteClicked}>Upvote</button>
         <p><strong>Piece Practiced:</strong> {session.pieces} </p>
         <p><strong>Duration:</strong> {session.durationMinutes} minutes </p>
         <p><strong>Notes:</strong> {session.notes} </p>
