@@ -49,6 +49,13 @@ app.get("/api/history/:date", async (req, res) => {
 
 })
 
+//POST create empty new session endpoint
+app.post("/api/newsession", async(req, res) => {
+    const emptySession = await db.collection('sessions').insertOne({date: '', upvotes: 0, comments: []})
+
+    res.json(emptySession)
+})
+
 //POST upvote endpoint
 app.post("/api/history/:date/upvote", async function(req, res){
 
@@ -97,6 +104,8 @@ app.post("/api/history/:date/comments", async function(req, res){
 app.delete("/api/history/:date/delete", async function(req, res){
     const {date} = req.params;
     const deletedSession = await db.collection('sessions').findOneAndDelete({ date })
+
+    //not sure what to send back
 
     res.json(deletedSession);
 })

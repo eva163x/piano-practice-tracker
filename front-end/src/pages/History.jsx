@@ -12,6 +12,8 @@ export default function History() {
                 <h3>{s.date}</h3>
             </Link>
         ))}
+        <button>Create New Session</button>
         </>
+
     );
 }
