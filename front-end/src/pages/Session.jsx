@@ -18,7 +18,7 @@ export default function Session() {
     const session = sessions.find(s => s.date == date);
 
     async function onUpvoteClicked(){
-        const response = await axios.delete('/api/history/' + date + '/upvote');
+        const response = await axios.post('/api/history/' + date + '/upvote');
         const updatedSessionData = response.data;
         setUpvotes(updatedSessionData.upvotes);
     }

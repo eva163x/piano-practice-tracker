@@ -1,7 +1,11 @@
 import sessions from '../sample-sessions';
+import axios from 'axios';
+import { use } from 'react';
 import {Link} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function History() {
+
 
     return(
         //react fragments are used so there is not just 1 top level element
@@ -12,7 +16,6 @@ export default function History() {
                 <h3>{s.date}</h3>
             </Link>
         ))}
-        <button>Create New Session</button>
         </>
 
     );

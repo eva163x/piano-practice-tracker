@@ -10,6 +10,7 @@ import History from './pages/History';
 import Layout from './Layout';
 import Session, {loader as sessionLoader} from './pages/Session';
 import NotFoundPage from './pages/NotFoundPage';
+import EditSession from './pages/EditSession';
 
 const routes = [{
   path: '/',
@@ -26,6 +27,10 @@ const routes = [{
     {
       path: '/newsession', //what URL path
       element: <NewSession /> //what component to display
+    },
+    {
+      path: '/newsession/edit', //what URL path
+      element: <EditSession /> //what component to display
     },
     {
       path:'/history/:date', // -> /history/2020-04-03
