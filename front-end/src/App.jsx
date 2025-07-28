@@ -29,7 +29,7 @@ const routes = [{
       element: <NewSession /> //what component to display
     },
     {
-      path: '/newsession/edit', //what URL path
+      path: '/newsession/:date/edit', //what URL path
       element: <EditSession /> //what component to display
     },
     {

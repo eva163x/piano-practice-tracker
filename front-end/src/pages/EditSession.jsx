@@ -1,24 +1,40 @@
 import sessions from '../sample-sessions';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 
 export default function EditSession() {
 
-    const { date } = useParams();
+    const params = useParams();
+    const date = params.date
     const navigate = useNavigate();
-    const [newDate, setNewDate] = useState(date);
+    const [newDate, setDate] = useState(date);
 
-    async function updateSessionClicked(){
-        const response = await axios.post('/api/history/' + date + '/edit')
+    async function editSessionClicked(){
+        const response = await axios.put('/api/newsession/' + date + '/edit', {newDate});
+        alert("Session successfully updated!");
+        console.log("response.data =", response.data); //test server api
+        navigate("/");
 
+    }
+
+    async function cancelClicked(){
+        navigate("/");
     }
 
     return(
         <>
         <h1>Edit Session</h1>
-        <button onClick={updateSessionClicked}>Done</button>
+        <form>
+            <label for="date">Date </label>
+            <input type="date" 
+            id="date"
+            value={newDate}
+            onChange={(e) => setDate(e.target.value)}
+            /><br />
+        </form>
+        <button onClick={editSessionClicked}>Done</button>
+        <button onClick={cancelClicked}>Cancel</button>
         </>
     );
 }

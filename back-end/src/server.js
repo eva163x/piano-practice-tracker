@@ -51,10 +51,12 @@ app.get("/api/history/:date", async (req, res) => {
 
 //POST create empty new session endpoint, w/ default date
 app.post("/api/newsession", async(req, res) => {
-    const emptySession = await db.collection('sessions').insertOne({date: '2025-07-27', upvotes: 0, comments: []})
+    const today = "2025-07-28"
+    const emptySession = await db.collection('sessions').insertOne({date: today, upvotes: 0, comments: []})
 
-    res.json(emptySession)
+    res.json({date : today}); 
 })
+
 
 //POST upvote endpoint
 app.post("/api/history/:date/upvote", async function(req, res){
@@ -101,9 +103,16 @@ app.post("/api/history/:date/comments", async function(req, res){
 })
 
 //UPDATE endpoint
-// app.put("/api/history/:date/edit", async function(req, res){
-//     const 
-// })
+app.put("/api/newsession/:date/edit", async function(req, res){
+    const {date} = req.params;
+    const {newDate} = req.body;
+    const updatedSession = await db.collection('sessions').findOneAndUpdate({ date },
+        {$set: { date: newDate }},
+        {returnDocument: "after"}
+    )
+
+    res.json(updatedSession)
+})
 
 //DELETE endpoint
 app.delete("/api/history/:date/delete", async function(req, res){

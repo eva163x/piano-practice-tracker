@@ -8,7 +8,8 @@ export default function HomePage() {
     async function newSessionClicked() {
         const response = await axios.post('/api/newsession');
         const newSessionData= response.data
-        navigate('newsession/edit');
+        console.log("response.data =", response.data); //test server api
+        navigate('newsession/'+ newSessionData.date + '/edit');
 
     }
     return(
