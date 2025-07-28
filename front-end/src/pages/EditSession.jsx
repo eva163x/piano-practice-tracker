@@ -1,4 +1,3 @@
-import sessions from '../sample-sessions';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
