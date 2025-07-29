@@ -1,8 +1,5 @@
-import {useParams, useLoaderData } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-//gets value so we can use as prop
-import sessions from '../sample-sessions';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import CommentsList from './CommentsList';
 
@@ -11,44 +8,43 @@ export default function Session() {
     const date = params.date;
     const navigate = useNavigate();
 
-    //set initial, so we can keep changing state
-    const { upvotes : initialUpvotes, comments } = useLoaderData();
-    const [upvotes, setUpvotes] = useState(initialUpvotes);
+    const [session, setSession] = useState(null);
+    const [upvotes, setUpvotes] = useState(0);
 
-    const session = sessions.find(s => s.date == date);
+    useEffect(() => {
+        async function fetchSession() {
+            const response = await axios.get('/api/history/' + date);
+            setSession(response.data);
+            setUpvotes(response.data.upvotes);
+        }
+        fetchSession();
+    }, [date]);
 
-    async function onUpvoteClicked(){
+    async function onUpvoteClicked() {
         const response = await axios.post('/api/history/' + date + '/upvote');
-        const updatedSessionData = response.data;
-        setUpvotes(updatedSessionData.upvotes);
+        setUpvotes(response.data.upvotes);
     }
 
-    async function onDeleteClicked(){
-        const response = await axios.delete('/api/history/' + date + '/delete');
-        const deletedSessionData = response.data;
+    async function onDeleteClicked() {
+        await axios.delete('/api/history/' + date + '/delete');
         alert('Session deleted successfully!');
-        navigate('/')
-
+        navigate('/');
     }
 
-    return(
+    if (!session) {
+        return <div>Loading...</div>;
+    }
+
+    return (
         <>
-        <h1>Session from {date}</h1>
-        <button onClick={onUpvoteClicked}>Upvote</button>
-        <button onClick={onDeleteClicked}>Delete</button>
-        <p><strong>Piece Practiced:</strong> {session.pieces} </p>
-        <p><strong>Duration:</strong> {session.durationMinutes} minutes </p>
-        <p><strong>Notes:</strong> {session.notes} </p>
-        <></>
-        <p>This article has { upvotes } upvotes!</p>
-        <CommentsList comments = {comments}></CommentsList>
+            <h1>Session from {session.date}</h1>
+            <button onClick={onUpvoteClicked}>Upvote</button>
+            <button onClick={onDeleteClicked}>Delete</button>
+            <p><strong>Piece Practiced:</strong> placeholder</p>
+            <p><strong>Duration:</strong> placeholder</p>
+            <p><strong>Notes:</strong> placeholder</p>
+            <p>This session has {upvotes} upvotes!</p>
+            <CommentsList comments={session.comments || []} />
         </>
     );
 }
-
-//how the session is getting its data!!
-export async function loader({ params }) {
-        const response = await axios.get('/api/history/' + params.date);
-        const { upvotes, comments } = response.data;
-        return { upvotes, comments };
-      }

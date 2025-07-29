@@ -8,7 +8,7 @@ import './App.css'
 import NewSession from './pages/NewSession';
 import History from './pages/History';
 import Layout from './Layout';
-import Session, {loader as sessionLoader} from './pages/Session';
+import Session from './pages/Session';
 import NotFoundPage from './pages/NotFoundPage';
 import EditSession from './pages/EditSession';
 
@@ -34,8 +34,7 @@ const routes = [{
     },
     {
       path:'/history/:date', // -> /history/2020-04-03
-      element: <Session />,
-      loader: sessionLoader,
+      element: <Session />
     }]
 }]
 //creating router
