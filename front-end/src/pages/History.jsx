@@ -1,11 +1,21 @@
-import sessions from '../sample-sessions';
+//import sessions from '../sample-sessions';
 import axios from 'axios';
-import { use } from 'react';
+import { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 export default function History() {
 
+    const [sessions, setSessions] = useState([]);
+
+    useEffect(() => {
+        async function fetchSessions(){
+            const response = await axios.get('/api/history');
+            setSessions(response.data);
+        }
+
+        fetchSessions();
+    }, []);
 
     return(
         //react fragments are used so there is not just 1 top level element

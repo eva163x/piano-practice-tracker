@@ -49,6 +49,11 @@ app.get("/api/history/:date", async (req, res) => {
 
 })
 
+app.get("/api/history", async(req, res) => {
+    const sessions = await db.collection('sessions').find({}).toArray();
+    res.json(sessions);
+})
+
 //POST create empty new session endpoint, w/ default date
 app.post("/api/newsession", async(req, res) => {
     const today = "2025-07-28"
